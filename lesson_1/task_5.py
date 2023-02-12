@@ -3,9 +3,6 @@
 
 Выполнить пинг веб-ресурсов yandex.ru, youtube.com и
 преобразовать результаты из байтовового в строковый тип на кириллице.
-
-Подсказки:
---- используйте модуль chardet, иначе задание не засчитается!!!
 """
 import subprocess
 import chardet
@@ -23,8 +20,6 @@ def ping_web_res():
 
         for line in ping.stdout:
             result = chardet.detect(line)
-            # print(result)
-            # после команды print(result) у меня выдает: {'encoding': 'ascii', 'confidence': 1.0, 'language': ''} итд
             dec_line = line.decode('ascii')
             print(dec_line)
 
