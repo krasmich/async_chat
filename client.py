@@ -15,7 +15,7 @@ def main():
         server_address = HOST
         server_port = PORT
     except ValueError:
-        print('В качестве порта может быть указано только число в диапазоне от 1024 до 65535.')
+        print('В качестве порта может быть указано только число в диапазоне от  1024 до 65535.')
         sys.exit(1)
 
     clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
