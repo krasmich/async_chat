@@ -37,7 +37,7 @@ def receive_message(client):
 
 def send_message(sock, message):
     '''
-    Утилита кодирования и отправки сообщения
+    Функция кодирования и отправки сообщения
     принимает словарь и отправляет его
     :param sock:
     :param message:
