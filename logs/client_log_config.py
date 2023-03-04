@@ -1,7 +1,9 @@
 import sys
 import os
 import logging
-from utils import LOGGING_LEVEL
+
+from logs.server_log_config import LOGGING_LEVEL
+# from utils import LOGGING_LEVEL
 
 
 sys.path.append('../')

@@ -1,6 +1,7 @@
 import json
 import logging
 import time
+from decor import log
 
 PORT = 7778
 HOST = '127.0.0.1'
@@ -17,13 +18,14 @@ PRESENCE = 'presence'
 RESPONSE = 'response'
 ERROR = 'error'
 
-LOGGING_LEVEL = logging.DEBUG
+# LOGGING_LEVEL = logging.DEBUG
 
 
 server_logger = logging.getLogger('server')
 client_logger = logging.getLogger('client')
 
 
+@log
 def receive_message(client):
     """
     Функция приёма и декодирования сообщения
@@ -42,6 +44,7 @@ def receive_message(client):
     raise ValueError
 
 
+@log
 def send_message(sock, message):
     """
     Функция кодирования и отправки сообщения
@@ -56,6 +59,7 @@ def send_message(sock, message):
     sock.send(encoded_message)
 
 
+@log
 def process_client_message(message):
     """
     Обработчик сообщений от клиентов, принимает словарь -
@@ -76,6 +80,7 @@ def process_client_message(message):
     }
 
 
+@log
 def create_presence(account_name='Guest'):
     """
     Функция генерирует запрос о присутствии клиента
@@ -93,6 +98,7 @@ def create_presence(account_name='Guest'):
     return out
 
 
+@log
 def process_server_answer(message):
     """
     Функция разбирает ответ сервера
