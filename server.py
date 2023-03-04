@@ -1,36 +1,37 @@
+import argparse
 import json
 import socket
 import sys
+import logging
+import logs.server_log_config
+
 
 from utils import receive_message, process_client_message, send_message, PORT, MAX_CONNECTIONS
 
+server_logger = logging.getLogger('server')
+
+
+def create_arg_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', default=PORT, type=int, nargs='?')
+    parser.add_argument('-a', default='', nargs='?')
+    return parser
+
 
 def main():
-    try:
-        if '-p' in sys.argv:
-            listen_port = int(sys.argv[sys.argv.index('-p') + 1])
-        else:
-            listen_port = PORT
-        if listen_port < 1024 or listen_port > 65535:
-            raise ValueError
-    except IndexError:
-        print('После параметра -\'p\' необходимо указать номер порта.')
-        sys.exit(1)
-    except ValueError:
-        print(
-            'В качастве порта может быть указано только число в диапазоне от 1024 до 65535.')
-        sys.exit(1)
 
-    try:
-        if '-a' in sys.argv:
-            listen_address = sys.argv[sys.argv.index('-a') + 1]
-        else:
-            listen_address = ''
+    parser = create_arg_parser()
+    namespace = parser.parse_args(sys.argv[1:])
+    listen_address = namespace.a
+    listen_port = namespace.p
 
-    except IndexError:
-        print(
-            'После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
+    if not 1023 < listen_port < 65536:
+        server_logger.critical(f'Попытка запуска сервера с указанием неподходящего порта '
+                               f'{listen_port}. Допустимы адреса с 1024 до 65535.')
         sys.exit(1)
+    server_logger.info(f'Запущен сервер, порт для подключений: {listen_port}, '
+                       f'адрес с которого принимаются подключения: {listen_address}. '
+                       f'Если адрес не указан, принимаются соединения с любых адресов.')
 
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serversocket.bind((listen_address, listen_port))
@@ -38,11 +39,14 @@ def main():
 
     while True:
         client, address = serversocket.accept()
+        server_logger.info(f'Установлено соедение с ПК {address}')
         try:
             msg_client = receive_message(client)
             print(msg_client)
             response = process_client_message(msg_client)
+            server_logger.info(f'Cформирован ответ клиенту {response}')
             send_message(client, response)
+            server_logger.debug(f'Соединение с клиентом {address} закрывается.')
             client.close()
         except (ValueError, json.JSONDecodeError):
             print('Принято некорретное сообщение от клиента.')
