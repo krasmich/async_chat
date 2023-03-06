@@ -4,6 +4,7 @@ import socket
 import sys
 import logging
 import logs.client_log_config
+from decor import log
 
 from utils import create_presence, receive_message, process_server_answer, send_message, PORT, HOST
 
@@ -11,6 +12,7 @@ from utils import create_presence, receive_message, process_server_answer, send_
 client_logger = logging.getLogger('client')
 
 
+@log
 def create_arg_parser():
     """
     Создаём парсер аргументов коммандной строки

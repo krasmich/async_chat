@@ -4,13 +4,14 @@ import socket
 import sys
 import logging
 import logs.server_log_config
-
+from decor import log
 
 from utils import receive_message, process_client_message, send_message, PORT, MAX_CONNECTIONS
 
 server_logger = logging.getLogger('server')
 
 
+@log
 def create_arg_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', default=PORT, type=int, nargs='?')

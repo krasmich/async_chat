@@ -3,7 +3,7 @@ import os
 import logging
 import logging.handlers
 
-from utils import LOGGING_LEVEL
+LOGGING_LEVEL = logging.DEBUG
 
 sys.path.append('../')
 # Подготовка имени файла для логирования
