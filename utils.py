@@ -5,7 +5,7 @@ import time
 from decor import log
 from errors import ReqFieldMissingError, ServerError, IncorrectDataRecivedError, NonDictInputError
 
-PORT = 7776
+PORT = 7777
 HOST = '127.0.0.1'
 MAX_CONNECTIONS = 5
 MAX_PACKAGE_LENGTH = 1024
@@ -143,17 +143,4 @@ def create_presence(account_name):
     return out
 
 
-@log
-def process_server_answer(message):
-    """
-    Функция разбирает ответ сервера
-    :param message:
-    :return:
-    """
-    client_logger.debug(f'Разбор сообщения от сервера: {message}')
-    if RESPONSE in message:
-        if message[RESPONSE] == 200:
-            return '200 : OK'
-        elif message[RESPONSE] == 400:
-            raise ServerError(f'400 : {message[ERROR]}')
-    raise ReqFieldMissingError(RESPONSE)
+
