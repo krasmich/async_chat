@@ -6,7 +6,7 @@ from logs.server_log_config import LOGGING_LEVEL
 # from utils import LOGGING_LEVEL
 
 
-sys.path.append('../')
+# sys.path.append('../')
 # Подготовка имени файла для логирования
 path = os.path.dirname(os.path.abspath(__file__))
 path = os.path.join(path, 'client.log')
