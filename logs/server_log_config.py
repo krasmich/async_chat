@@ -5,7 +5,7 @@ import logging.handlers
 
 LOGGING_LEVEL = logging.DEBUG
 
-sys.path.append('../')
+# sys.path.append('../')
 # Подготовка имени файла для логирования
 path = os.path.dirname(os.path.abspath(__file__))
 path = os.path.join(path, 'server.log')
