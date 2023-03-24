@@ -5,11 +5,12 @@ from decor import log
 from errors import IncorrectDataRecivedError, NonDictInputError
 # sys.path.append('../')
 
-PORT = 7773
+PORT = 7778
 HOST = '127.0.0.1'
 MAX_CONNECTIONS = 5
 MAX_PACKAGE_LENGTH = 1024
 ENCODING = 'utf-8'
+SERVER_DATABASE = 'sqlite:///server_base.db3'
 
 ACTION = 'action'
 TIME = 'time'
