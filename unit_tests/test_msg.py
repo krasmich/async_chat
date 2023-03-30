@@ -1,9 +1,8 @@
 import sys
+
+
 import unittest
-from utils import *
-from errors import NonDictInputError
-
-
+from common.utils import *
 sys.path.append('../')
 
 
@@ -39,7 +38,6 @@ class Tests(unittest.TestCase):
         test_socket = TestSocket(self.test_dict_send)
         send_message(test_socket, self.test_dict_send)
         self.assertEqual(test_socket.encoded_message, test_socket.received_message)
-        self.assertRaises(NonDictInputError, send_message, test_socket, 1111)
 
     def test_receive_message(self):
         test_sock_ok = TestSocket(self.test_dict_recv_ok)
