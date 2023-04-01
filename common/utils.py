@@ -1,10 +1,11 @@
+import sys
 import json
 import logging
-# import sys
-from decor import log
-from errors import IncorrectDataRecivedError, NonDictInputError
+from common.decor import log
 
-PORT = 7771
+sys.path.append('../')
+
+PORT = 7777
 HOST = '127.0.0.1'
 MAX_CONNECTIONS = 5
 MAX_PACKAGE_LENGTH = 1024
@@ -46,36 +47,17 @@ client_logger = logging.getLogger('client')
 
 @log
 def receive_message(client):
-    """
-    Функция приёма и декодирования сообщения
-    принимает байты, выдаёт словарь, если принято что-то другое отдаёт ошибку значения.
-    :param client:
-    :return:
-    """
     encoded_response = client.recv(MAX_PACKAGE_LENGTH)
-    if isinstance(encoded_response, bytes):
-        json_response = encoded_response.decode(ENCODING)
-        response = json.loads(json_response)
-        if isinstance(response, dict):
-            return response
-        else:
-            raise IncorrectDataRecivedError
+    json_response = encoded_response.decode(ENCODING)
+    response = json.loads(json_response)
+    if isinstance(response, dict):
+        return response
     else:
-        raise IncorrectDataRecivedError
+        raise TypeError
 
 
 @log
 def send_message(sock, message):
-    """
-    Функция кодирования и отправки сообщения
-    принимает словарь и отправляет его
-    :param sock:
-    :param message:
-    :return:
-    """
-
-    if not isinstance(message, dict):
-        raise NonDictInputError
     js_message = json.dumps(message)
     encoded_message = js_message.encode(ENCODING)
     sock.send(encoded_message)
